@@ -1,0 +1,27 @@
+.export-csv-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: 0.625rem 1rem;
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent-blue), #0088cc);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.export-csv-btn:hover {
+    background: linear-gradient(135deg, #33bbff, #00aaff);
+    box-shadow: 0 0 12px rgba(0, 170, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.export-icon {
+    font-size: 1rem;
+}
