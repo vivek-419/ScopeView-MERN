@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const { connectDB } = require('./utils/db');
 const TelemetryPoint = require('./models/TelemetryPoint');
+const StreamConfig = require('./models/StreamConfig');
 const WebSocketService = require('./services/websocket');
 
 // Load environment variables
@@ -228,24 +229,44 @@ process.on('SIGTERM', async () => {
 // Data simulation function for development
 async function startDataSimulation() {
   const sessionId = 'demo-session-' + Date.now();
-  const streams = [
-    { key: 'cpu_usage', name: 'CPU Usage', min: 10, max: 90, step: 2.5, volatility: 8 },
-    { key: 'memory_usage', name: 'Memory Usage', min: 20, max: 80, step: 1.8, volatility: 6 },
-    { key: 'network_in', name: 'Network In', min: 5, max: 50, step: 3.5, volatility: 10 },
-    { key: 'network_out', name: 'Network Out', min: 5, max: 40, step: 3.0, volatility: 8 },
-    { key: 'disk_read', name: 'Disk Read', min: 1, max: 30, step: 2.0, volatility: 5 },
-    { key: 'disk_write', name: 'Disk Write', min: 1, max: 25, step: 2.5, volatility: 6 },
-    { key: 'tire_temperature', name: 'Tire Temperature', min: 60, max: 120, step: 4.0, volatility: 12 }
-  ];
-  
-  // Initialize values for each stream
+  let streams = [];
   const values = {};
-  streams.forEach(stream => {
-    values[stream.key] = stream.min + Math.random() * (stream.max - stream.min) * 0.5;
-  });
+
+  // Function to refresh active streams from DB
+  const refreshStreams = async () => {
+    try {
+      const dbStreams = await StreamConfig.find({ isVisible: true });
+      streams = dbStreams.map(s => ({
+        key: s.streamKey,
+        name: s.name,
+        min: s.minValue,
+        max: s.maxValue,
+        // Calculate dynamic properties based on range if not available
+        step: (s.maxValue - s.minValue) * 0.05, // 5% of range
+        volatility: (s.maxValue - s.minValue) * 0.1 // 10% of range
+      }));
+      
+      // Initialize values for new streams
+      streams.forEach(stream => {
+        if (values[stream.key] === undefined) {
+          values[stream.key] = stream.min + Math.random() * (stream.max - stream.min) * 0.5;
+        }
+      });
+    } catch (error) {
+      console.error('Error refreshing streams for simulation:', error.message);
+    }
+  };
+
+  // Initial refresh
+  await refreshStreams();
+
+  // Periodically refresh streams (every 5 seconds) to pick up new ones
+  setInterval(refreshStreams, 5000);
   
   // Generate data points at regular intervals
   setInterval(() => {
+    if (streams.length === 0) return;
+
     const timestamp = new Date();
     
     streams.forEach(stream => {

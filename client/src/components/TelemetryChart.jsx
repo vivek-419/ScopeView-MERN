@@ -54,6 +54,7 @@ function TelemetryChart({ data, streams }) {
                             name={`${stream.name}${stream.unit ? ` (${stream.unit})` : ''}`}
                             isAnimationActive={true}
                             animationDuration={300}
+                            connectNulls={true}
                         />
                     ))}
                 </LineChart>
