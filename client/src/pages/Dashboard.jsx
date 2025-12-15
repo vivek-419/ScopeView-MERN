@@ -13,7 +13,7 @@ import './Dashboard.css'
 
 function Dashboard() {
     const { user } = useAuth()
-    const { isConnected, subscribe, onTelemetry } = useSocket()
+    const { isConnected, subscribe, onTelemetry, connect, disconnect } = useSocket()
 
     // Load streams dynamically from API instead of hardcoding
     const [availableStreams, setAvailableStreams] = useState([])
@@ -148,6 +148,16 @@ function Dashboard() {
         })
     }, [])
 
+    const handleConnectionToggle = useCallback(() => {
+        if (isConnected) {
+            disconnect()
+            console.log('🔌 User disconnected manually')
+        } else {
+            connect()
+            console.log('🔌 User connected manually')
+        }
+    }, [isConnected, connect, disconnect])
+
     const activeStreamObjects = availableStreams.filter(s => selectedStreams.includes(s.key))
 
     return (
@@ -167,7 +177,19 @@ function Dashboard() {
                         </svg>
                     }
                     label="Connection Status"
-                    value={stats.connected ? 'Connected' : 'Disconnected'}
+                    value={
+                        <div className="connection-toggle">
+                            <span>{stats.connected ? 'Connected' : 'Disconnected'}</span>
+                            <label className="switch">
+                                <input
+                                    type="checkbox"
+                                    checked={stats.connected}
+                                    onChange={handleConnectionToggle}
+                                />
+                                <span className={`slider round ${stats.connected ? 'connected' : ''}`}></span>
+                            </label>
+                        </div>
+                    }
                     status={stats.connected ? 'connected' : 'disconnected'}
                 />
                 <StatsCard

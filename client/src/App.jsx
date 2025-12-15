@@ -12,22 +12,17 @@ import NotFound from './pages/NotFound'
 import Sidebar from './components/Sidebar'
 import './App.css'
 
+import Home from './pages/Home'
+
 function AppContent() {
   return (
     <Routes>
       {/* Public Routes */}
+      <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
       {/* Protected Routes with Sidebar */}
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <Navigate to="/dashboard" replace />
-          </ProtectedRoute>
-        }
-      />
 
       <Route
         path="/dashboard"

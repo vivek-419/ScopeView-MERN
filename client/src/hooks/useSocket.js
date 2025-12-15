@@ -66,10 +66,21 @@ export const useSocket = () => {
     socketService.off(event, callback)
   }, [])
 
+  // Manual connect/disconnect wrappers
+  const connect = useCallback(() => {
+    return socketService.connect()
+  }, [])
+
+  const disconnect = useCallback(() => {
+    socketService.disconnect()
+  }, [])
+
   return {
     isConnected,
     error,
     lastUpdate,
+    connect,
+    disconnect,
     subscribe,
     onTelemetry,
     onInitialData,
