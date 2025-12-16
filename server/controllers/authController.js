@@ -26,7 +26,7 @@ const authController = {
       res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
       console.error('Registration error:', error);
-      res.status(500).json({ message: "Error registering user" });
+      res.status(500).json({ message: "Error registering user", error: error.message });
     }
   },
   
