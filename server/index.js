@@ -296,8 +296,8 @@ async function startDataSimulation() {
         sessionId
       };
       
-      // Add to buffer
-      telemetryBuffer.push(point);
+      // Add to buffer (DISABLED to save DB space)
+      // telemetryBuffer.push(point);
       
       // Broadcast to clients subscribed to this stream
       io.to(stream.key).emit('telemetry:update', point);
