@@ -4,12 +4,15 @@
 
 ScopeView is a full-stack web application designed to ingest, visualize, and analyze high-frequency telemetry data streams (like CPU usage, sensor metrics, etc.) in real-time. It features a modern, responsive dashboard with live charts, historical playback, and role-based access control.
 
-![ScopeView Dashboard](https://via.placeholder.com/800x400?text=ScopeView+Dashboard+Preview)
-*(Replace with actual screenshot link if available)*
+<img width="1470" height="956" alt="Screenshot 2025-12-17 at 4 55 20 PM" src="https://github.com/user-attachments/assets/1e7a699f-73cb-4c8b-bb7b-6779851ed31d" />
+<img width="1470" height="956" alt="Screenshot 2025-12-17 at 4 57 02 PM" src="https://github.com/user-attachments/assets/5167dc57-f5d1-4404-abec-4cf6a24b7e74" />
+<img width="1470" height="956" alt="Screenshot 2025-12-17 at 4 57 57 PM" src="https://github.com/user-attachments/assets/fa0f0455-d7de-43d4-85db-b5b17215eb1c" />
+
 
 ---
 
 ## 🚀 Features
+
 
 *   **Real-time Visualization:** Live line charts using WebSocket data streams (< 50ms latency).
 *   **Dynamic Stream Configuration:** Add, edit, and toggle telemetry streams on the fly.
@@ -127,6 +130,8 @@ node scripts/clearTelemetry.js
 cd client
 npm run build
 ```
+Deployement link: https://scopeview.vercel.app/
+Backend Deployement link (Render): https://scopeview-mern.onrender.com
 
 **Backend:**
 ```bash
