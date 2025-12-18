@@ -47,7 +47,29 @@ ScopeView is a full-stack web application designed to ingest, visualize, and ana
 *   Backend: Render
 *   Database: MongoDB Atlas
 
----
+  API Endpoints Summary
+Authentication
+
+POST /api/auth/register — Create a new user account and set roles.
+POST /api/auth/login — Authenticate and receive a secure JWT token.
+Stream Configuration
+
+GET /api/config/streams — Retrieve all active telemetry stream settings.
+POST /api/config/streams — Add a new telemetry stream (Requires Admin/Engineer role).
+PUT /api/config/streams/:id — Update stream properties like color or range.
+DELETE /api/config/streams/:id — Remove a stream from the database.
+Telemetry & Analytics
+
+GET /api/telemetry — Fetch historical data points for the playback feature.
+GET /api/telemetry/stats — Get high-level statistics (Min, Max, Avg) for any stream.
+GET /api/sessions/:sessionId/streams — Find which data streams belong to a specific session.
+Real-Time Data (WebSockets)
+
+Event: 
+subscribe
+ — Connects the client to specific real-time data rooms.
+Event: telemetry:update — Pushes live data packets to the UI at a 10Hz frequency.
+
 
 ## ⚙️ Installation & Local Setup
 
